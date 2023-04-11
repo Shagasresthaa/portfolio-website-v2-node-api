@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-website-v2-node-api",
+  "version": "0.0.1-beta",
+  "description": "Api backend for Portfolio Website UI",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shagasresthaa/portfolio-website-v2-node-api"
+  },
+  "author": "Shaga Sresthaa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shagasresthaa/portfolio-website-v2-node-api/issues"
+  },
+  "homepage": "https://github.com/Shagasresthaa/portfolio-website-v2-node-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^6.1.5",
+    "nodemailer": "^6.9.1",
+    "pg-promise": "^11.4.3",
+    "typescript": "^5.0.4"
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ES2017",             // Target ECMAScript version
+      "module": "commonjs",          // Module system
+      "strict": true,                // Enable strict type checking
+      "esModuleInterop": true,       // Enable ES module interop
+      "outDir": "dist",              // Output directory for compiled files
+      "sourceMap": true              // Generate source maps for debugging
+    },
+    "include": [
+      "src/**/*.ts"                 // Include TypeScript files for compilation
+    ],
+    "exclude": [
+      "node_modules"                // Exclude node_modules from compilation
+    ]
+  }
