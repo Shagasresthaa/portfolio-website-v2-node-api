@@ -1,16 +1,13 @@
 {
-    "compilerOptions": {
-      "target": "ES2017",             // Target ECMAScript version
-      "module": "commonjs",          // Module system
-      "strict": true,                // Enable strict type checking
-      "esModuleInterop": true,       // Enable ES module interop
-      "outDir": "dist",              // Output directory for compiled files
-      "sourceMap": true              // Generate source maps for debugging
-    },
-    "include": [
-      "src/**/*.ts"                 // Include TypeScript files for compilation
-    ],
-    "exclude": [
-      "node_modules"                // Exclude node_modules from compilation
-    ]
-  }
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
