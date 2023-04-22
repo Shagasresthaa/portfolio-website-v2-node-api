@@ -1,13 +1,11 @@
 import express from "express";
 import sequelize from "../config/sequelize";
-import {
-  loginController,
-  createUserController,
-  deleteUserController,
-} from "./controllers/userController";
-import { createProject } from "./controllers/projectsController";
 import dotenv from "dotenv";
 import User from "./models/User";
+
+// Routes imports
+import { userRoutes } from "./routes/userRoutes";
+import { projectRoutes } from "./routes/projectRoutes";
 
 dotenv.config();
 User.initModel(sequelize);
@@ -15,6 +13,7 @@ User.initModel(sequelize);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Sync all DB Table Schemas
 (async () => {
   try {
     // Sync all models with the database
@@ -32,7 +31,6 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/api/login", loginController);
-app.post("/api/register", createUserController);
-app.post("/api/createproj", createProject);
-app.delete("/api/deleteuser", deleteUserController);
+// Initiate Routes
+userRoutes(app);
+projectRoutes(app);
