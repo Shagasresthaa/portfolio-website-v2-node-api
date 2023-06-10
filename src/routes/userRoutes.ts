@@ -4,16 +4,14 @@ import {
   createUserController,
   deleteUserController,
 } from "../controllers/userController";
+import { checkJwt } from "../middleware/jwtTokenManager";
 
 export const userRoutes = (app: Express) => {
-  // GET Requests
-  app.get("/api/login", loginController);
-
-  // POST Requests
+  //Public Routes
   app.post("/api/register", createUserController);
+  app.post("/api/login", loginController);
 
-  // UPDATE Requests
-
-  // DELETE Requests
+  app.use(checkJwt);
+  //Private Routes
   app.delete("/api/deleteuser", deleteUserController);
 };

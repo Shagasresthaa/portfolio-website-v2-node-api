@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import {
   authenticateUser,
   createUser,
   deleteUser,
 } from "../services/UserServices";
+
+dotenv.config();
 
 interface LoginRequest {
   username: string;
@@ -24,14 +28,27 @@ export const loginController = async (req: Request, res: Response) => {
   const loginData: LoginRequest = req.body;
 
   try {
-    const user = await authenticateUser(loginData.username, loginData.password);
+    const result = await authenticateUser(
+      loginData.username,
+      loginData.password
+    );
 
-    if (user) {
-      res.status(200).json({ message: "Login successful" });
+    if (result) {
+      const token = jwt.sign(
+        { userId: result.user.id, isAdmin: result.isAdmin },
+        process.env.JWTSecret!,
+        {
+          expiresIn: "1h",
+        }
+      );
+      res
+        .status(200)
+        .json({ message: "Login successful", token, isAdmin: result.isAdmin });
     } else {
       res.status(401).json({ message: "Invalid username or password" });
     }
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .json({ message: "An error occurred during the login process", error });

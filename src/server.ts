@@ -11,16 +11,19 @@ dotenv.config();
 User.initModel(sequelize);
 
 const app = express();
+const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 
-// Sync all DB Table Schemas
+/* 
+DB Sync
+*/
 (async () => {
   try {
-    // Sync all models with the database
+    // Models Sync
     await sequelize.sync();
     console.log("Database tables created or updated");
 
-    // Start the server after synchronization is complete
+    // Server Start Post Model Sync
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
@@ -30,6 +33,12 @@ const PORT = process.env.PORT || 3000;
 })();
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+  })
+);
 
 // Initiate Routes
 userRoutes(app);

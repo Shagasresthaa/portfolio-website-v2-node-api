@@ -5,14 +5,15 @@ import bcrypt from "bcrypt";
 export const authenticateUser = async (
   username: string,
   password: string
-): Promise<boolean | null> => {
+): Promise<{ isAdmin: boolean; user: User } | null> => {
   const user = await User.findOne({ where: { username } });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    return true;
+    const isAdmin = user.role === 'admin'; 
+    return { isAdmin, user };
   }
 
-  return false;
+  return null;
 };
 
 export const createUser = async (
@@ -36,6 +37,7 @@ export const createUser = async (
     username,
     email,
     password: hashedPassword,
+    role: 'user'
   });
 
   return newUser;

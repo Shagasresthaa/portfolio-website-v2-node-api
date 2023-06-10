@@ -6,6 +6,7 @@ interface UserAttributes {
   username: string;
   email: string;
   password: string;
+  role: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -18,6 +19,7 @@ class User
   public username!: string;
   public email!: string;
   public password!: string;
+  public role!: string;
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -57,10 +59,19 @@ class User
             notNull: true,
           },
         },
+        role: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          defaultValue: "user",
+          validate: {
+            notEmpty: true,
+            notNull: true,
+          },
+        },
       },
       {
         sequelize,
-        modelName: "User",
+        modelName: 'User',
       }
     );
   }
@@ -68,9 +79,10 @@ class User
   static async createUser(
     username: string,
     email: string,
-    password: string
+    password: string,
+    role: string = "user"
   ): Promise<User> {
-    const user = await User.create({ username, email, password });
+    const user = await User.create({ username, email, password, role });
     return user;
   }
 
@@ -83,6 +95,14 @@ class User
       return false;
     }
   }
+}
+
+try {
+  // Models Sync
+  sequelize.sync();
+  console.log("Database tables created or updated");
+} catch (error) {
+  console.error("Unable to sync database tables:", error);
 }
 
 export default User;
