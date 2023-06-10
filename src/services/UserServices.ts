@@ -1,6 +1,12 @@
-import { as } from "pg-promise";
 import User from "../models/User";
 import bcrypt from "bcrypt";
+
+interface FilteredUser {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+}
 
 export const authenticateUser = async (
   username: string,
@@ -9,8 +15,27 @@ export const authenticateUser = async (
   const user = await User.findOne({ where: { username } });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    const isAdmin = user.role === 'admin'; 
+    const isAdmin = user.role === "admin";
     return { isAdmin, user };
+  }
+
+  return null;
+};
+
+export const getUserDetails = async (
+  id: number
+): Promise<{ user: FilteredUser } | null> => {
+  const user = await User.findOne({ where: { id } });
+
+  if (user) {
+    const filteredUser: FilteredUser = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    };
+
+    return { user: filteredUser };
   }
 
   return null;
@@ -37,7 +62,7 @@ export const createUser = async (
     username,
     email,
     password: hashedPassword,
-    role: 'user'
+    role: "user",
   });
 
   return newUser;

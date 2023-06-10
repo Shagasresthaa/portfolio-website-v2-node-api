@@ -3,6 +3,7 @@ import {
   loginController,
   createUserController,
   deleteUserController,
+  userDetailsController
 } from "../controllers/userController";
 import { checkJwt } from "../middleware/jwtTokenManager";
 
@@ -13,5 +14,6 @@ export const userRoutes = (app: Express) => {
 
   app.use(checkJwt);
   //Private Routes
-  app.delete("/api/deleteuser", deleteUserController);
+  app.post("/api/user/getData", userDetailsController);
+  app.delete("/api/user/deleteuser", deleteUserController);
 };
